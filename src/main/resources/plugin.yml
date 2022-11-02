@@ -1,0 +1,8 @@
+name: Inventory_UNCLib
+version: '${project.version}'
+main: fr.teamunc.inventory_unclib.Inventory_UNCLib
+api-version: 1.19
+prefix: UNC-Inventory
+authors: [ TeamUNC ]
+description: Inventory lib for unc team plugins
+website: team-unc.fr

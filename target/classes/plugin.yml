@@ -1,0 +1,8 @@
+name: Base_UNCLib
+version: '1.0.0'
+main: fr.teamunc.base_unclib.Base_UNCLib
+api-version: 1.19
+prefix: UNC-Base
+authors: [ TeamUNC ]
+description: BAse lib for unc team plugins
+website: team-unc.fr
