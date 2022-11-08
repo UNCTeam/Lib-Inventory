@@ -24,7 +24,7 @@ public class InventoryListener implements Listener {
                 Bukkit.broadcastMessage("Inventory not found!");
                 return;
             }
-            if ((event.isShiftClick() && inventory.getIsShiftClickCancel()) || (event.getClick() == ClickType.DROP && inventory.getIsDropClickCancel())) {
+            if (event.getClick() != ClickType.LEFT && event.getClick() != ClickType.RIGHT) {
                 event.setCancelled(true);
                 return;
             }
