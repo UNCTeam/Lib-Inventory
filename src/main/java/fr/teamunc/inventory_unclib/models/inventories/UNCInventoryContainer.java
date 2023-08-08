@@ -8,6 +8,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Getter
-public class UNCContainerInventory extends UNCEntitiesContainer {
+public class UNCInventoryContainer extends UNCEntitiesContainer {
     private HashMap<UUID, UNCPersistantInventory> inventories = new HashMap<>();
 }

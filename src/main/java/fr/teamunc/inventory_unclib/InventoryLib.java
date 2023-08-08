@@ -1,10 +1,10 @@
 package fr.teamunc.inventory_unclib;
 
-import fr.teamunc.base_unclib.controllers.UNCInventoryController;
-import fr.teamunc.base_unclib.minecraft.comandsExecutors.InventoriesCommands;
-import fr.teamunc.base_unclib.minecraft.eventlisteners.InventoryListener;
-import fr.teamunc.base_unclib.models.inventories.UNCContainerInventory;
 import fr.teamunc.base_unclib.models.jsonEntities.UNCEntitiesContainer;
+import fr.teamunc.inventory_unclib.controllers.UNCInventoryController;
+import fr.teamunc.inventory_unclib.minecraft.commandsExecutors.InventoriesCommands;
+import fr.teamunc.inventory_unclib.minecraft.eventlisteners.InventoryListener;
+import fr.teamunc.inventory_unclib.models.inventories.UNCInventoryContainer;
 import lombok.Getter;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,21 +14,27 @@ import org.bukkit.plugin.java.JavaPlugin;
  * - init with the plugin
  */
 public class InventoryLib {
+
     @Getter
     private static JavaPlugin plugin;
     @Getter
-    private static UNCInventoryController UNCInventoryController;
+    private static UNCInventoryController inventoryController;
+
+    private InventoryLib() {}
 
     public static void init(JavaPlugin plugin) {
         InventoryLib.plugin = plugin;
 
-        UNCInventoryController = new UNCInventoryController(initInventoryContainer());
+        // init json entities
+        UNCEntitiesContainer.init(plugin.getDataFolder());
+
+        inventoryController = new UNCInventoryController(initInventoryContainer());
 
         // register commands
         initCommands();
     }
 
-    public static boolean IsInit() {
+    public static boolean isInit() {
         return plugin != null;
     }
 
@@ -40,20 +46,24 @@ public class InventoryLib {
         }
     }
 
-    private static UNCContainerInventory initInventoryContainer() {
-        UNCEntitiesContainer.init(plugin.getDataFolder());
-        UNCContainerInventory res;
+    private static UNCInventoryContainer initInventoryContainer() {
+        UNCInventoryContainer res;
 
         try {
-            res = UNCEntitiesContainer.loadContainer("inventories", UNCContainerInventory.class);
+            res = UNCEntitiesContainer.loadContainer("inventories", UNCInventoryContainer.class);
         } catch (Exception e) {
             plugin.getLogger().info("Creating new inventory container file");
-            res = new UNCContainerInventory();
+            res = new UNCInventoryContainer();
         }
         return res;
     }
 
-    public static void initGameListener(Inventory_UNCLib inventory_uncLib) {
-        inventory_uncLib.getServer().getPluginManager().registerEvents(new InventoryListener(), inventory_uncLib);
+
+    public static void initGameListener(Inventory_UNCLib inventoryUncLib) {
+        inventoryUncLib.getServer().getPluginManager().registerEvents(new InventoryListener(), inventoryUncLib);
+    }
+
+    public static void save() {
+        inventoryController.save();
     }
 }

@@ -1,6 +1,6 @@
 package fr.teamunc.inventory_unclib;
 
-import fr.teamunc.base_unclib.BaseLib;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Inventory_UNCLib extends JavaPlugin {
@@ -12,12 +12,10 @@ public final class Inventory_UNCLib extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        if (BaseLib.IsInit()) {
-            InventoryLib.getUNCInventoryController().getContainerInventory().save("inventories");
+        if (InventoryLib.isInit()) {
+            InventoryLib.save();
         }
 
-        getServer().getOnlinePlayers().forEach(player -> {
-            player.closeInventory();
-        });
+        getServer().getOnlinePlayers().forEach(HumanEntity::closeInventory);
     }
 }
